@@ -1,0 +1,220 @@
+/* 
+   LegalVerifier - Global Production Theme Styles
+   Theme Colors: Navy Blue, Amber Gold, Pure White, Slate Light Gray
+*/
+
+:root {
+    --color-navy: #0B1F3A;
+    --color-navy-dark: #071527;
+    --color-navy-light: #162E4D;
+    --color-gold: #E5A823;
+    --color-gold-hover: #D49712;
+    --color-red-kicker: #991B1B;
+    --color-danger-icon: #DC2626;
+    --color-danger-bg: rgba(220, 38, 38, 0.08);
+    --color-note-bg: #FEF08A;
+    --color-note-border: #FDE047;
+    --color-bg-light: #F8FAFC;
+    --color-bg-cream: #FAF7F2;
+    --color-text-muted: #475569;
+    --color-green: #16A34A;
+    --color-navy-blue: #1E40AF;
+    --color-amber: #FBBF24;
+    --color-orange: #EA580C;
+    --color-green-light: #DCFCE7;
+    --color-orange-light: rgba(234, 88, 12, 0.08);
+    --font-heading: 'Barlow Condensed', sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', sans-serif;
+    --font-handwritten: 'Reenie Beanie', cursive;
+}
+
+body {
+    font-family: var(--font-body);
+    color: #334155;
+    background-color: #ffffff;
+    overflow-x: hidden;
+}
+
+.font-condensed {
+    font-family: var(--font-heading);
+    letter-spacing: 0.5px;
+}
+
+.font-serif {
+    font-family: var(--font-serif);
+}
+
+.font-handwritten {
+    font-family: var(--font-handwritten);
+}
+
+/* Colors Utilities */
+.bg-navy {
+    background-color: var(--color-navy) !important;
+}
+
+.bg-navy-dark {
+    background-color: var(--color-navy-dark) !important;
+}
+
+.bg-navy-light {
+    background-color: var(--color-navy-light) !important;
+}
+
+.bg-navy-gradient {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%) !important;
+}
+
+.bg-gold {
+    background-color: var(--color-gold) !important;
+}
+
+.text-navy {
+    color: var(--color-navy) !important;
+}
+
+.text-gold {
+    color: var(--color-gold) !important;
+}
+
+.text-kicker-red {
+    color: var(--color-red-kicker) !important;
+}
+
+.bg-note-yellow {
+    background-color: var(--color-note-bg) !important;
+    border: 1px solid var(--color-note-border) !important;
+}
+
+/* Glass Button */
+.btn-glass-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+}
+
+.btn-glass-secondary:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+/* Buttons */
+.btn-gold {
+    background-color: var(--color-gold);
+    color: #0F172A;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+    background-color: var(--color-gold-hover);
+    color: #000000;
+    transform: translateY(-2px);
+}
+
+.shadow-gold {
+    box-shadow: 0 4px 14px rgba(229, 168, 35, 0.4);
+}
+
+.btn-outline-navy {
+    border: 2px solid var(--color-navy);
+    color: var(--color-navy);
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-navy:hover {
+    background-color: var(--color-navy);
+    color: #ffffff;
+}
+
+/* Header */
+.small-tagline {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Hero Section with WebP Background */
+.hero-section {
+    background: url('../assets/images/creator-protection/hero-bg.webp') no-repeat center right / cover;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    min-height: 540px;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 991px) {
+    .hero-section {
+        background: linear-gradient(rgba(7, 21, 38, 0.78), rgba(7, 21, 38, 0.88)), url('../assets/images/creator-protection/hero-bg.webp') no-repeat 48% center / cover;
+    }
+}
+
+.sub-features-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    font-size: 0.9rem;
+}
+
+.sub-feature-item {
+    display: flex;
+    align-items: center;
+    color: #e2e8f0;
+}
+
+/* Global Reusable Utilities */
+.hover-lift {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+.icon-box-danger {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 8px;
+    background: var(--color-danger-bg);
+    color: var(--color-danger-icon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+}
+
+.text-shadow-sm {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.font-handwritten {
+    font-family: 'Dancing Script', 'Caveat', 'Satisfy', cursive;
+}
+
+/* Organic Yellow Dry-Brush Note Component */
+.yellow-brush-note {
+    position: absolute;
+    top: -98px;
+    left: 45%;
+    transform: translateX(-50%) rotate(-14deg);
+    padding: 10px 14px 18px 36px;
+    font-family: 'Dancing Script', 'Caveat', 'Satisfy', cursive;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #171717;
+    text-align: center;
+    line-height: 1.12;
+    z-index: 10;
+    pointer-events: none;
+    white-space: nowrap;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 340 120' preserveAspectRatio='none'%3E%3Cg fill='%23FFF3B8' opacity='0.72'%3E%3Cpath d='M35 15C100 12 220 8 325 18C335 20 338 32 330 45C338 58 330 72 315 78C240 85 140 92 50 102C38 104 25 108 18 100C10 90 18 80 28 68C12 62 16 48 26 38C15 32 20 20 35 15Z'/%3E%3Cpath d='M8 32Q25 28 45 26Q30 36 12 40Z' opacity='0.55'/%3E%3Cpath d='M4 52Q22 48 50 46Q30 58 8 62Z' opacity='0.6'/%3E%3Cpath d='M12 75Q30 72 60 70Q38 84 15 86Z' opacity='0.5'/%3E%3Cpath d='M140 95C190 92 270 85 310 82C320 81 325 88 315 90C270 95 190 100 140 102Z' opacity='0.6'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.03));
+}
