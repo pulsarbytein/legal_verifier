@@ -103,17 +103,105 @@ function loadInclude(elementId, filepath) {
     }
 }
 
-// Global Form Submission Handler
-function handleFormSubmit(event) {
+// Update these with your backend endpoint and WhatsApp business number
+window.LEGAL_CONFIG = {
+    // PHP endpoint that receives lead data
+    phpEndpoint: 'api/submit-lead.php',
+
+    // WhatsApp business number (country code + number, digits only)
+    whatsappNumber: '919876543210',
+
+    // Prefilled WhatsApp message template
+    formatWhatsAppMessage: function (data) {
+        return `*Priority Legal Assistance Request*\n` +
+               `-----------------------------------\n` +
+               `👤 *Name:* ${data.name}\n` +
+               `📱 *Mobile:* ${data.phone}\n` +
+               `✉️ *Email:* ${data.email}\n` +
+               `⚖️ *Requirement:* ${data.service}\n` +
+               `🌐 *Page:* Creator Protection\n` +
+               `-----------------------------------\n` +
+               `Please connect me with a verified legal expert.`;
+    }
+};
+
+// Handles form submit: sends lead to backend, then redirects to WhatsApp
+async function handlePriorityFormSubmit(event) {
     event.preventDefault();
 
-    // Hide modal if active
-    const modalElement = document.getElementById('consultationModal');
-    if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) modal.hide();
+    const form = event.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const feedback = form.querySelector('[id*="Feedback"]') || form.querySelector('.lead-feedback');
+
+    const nameInput = form.querySelector('[name="full_name"]');
+    const emailInput = form.querySelector('[name="email"]');
+    const phoneInput = form.querySelector('[name="mobile_number"]');
+    const serviceInput = form.querySelector('[name="requirement"]');
+
+    const name = nameInput ? nameInput.value.trim() : '';
+    const email = emailInput ? emailInput.value.trim() : '';
+    const phone = phoneInput ? phoneInput.value.trim() : '';
+    const service = serviceInput ? serviceInput.value : '';
+
+    if (!name || !email || !phone || !service) {
+        alert('Please fill out all required fields.');
+        return;
     }
 
-    // Show success alert
-    alert('Thank you! Your request has been received. A LegalVerifier expert will contact you shortly.');
+    if (!/^[0-9]{10}$/.test(phone)) {
+        alert('Please enter a valid 10-digit mobile number.');
+        return;
+    }
+
+    const leadData = {
+        name: name,
+        email: email,
+        phone: phone,
+        service: service,
+        page_source: window.location.pathname || 'creator-protection',
+        submitted_at: new Date().toISOString()
+    };
+
+    // UI Loading state
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Connecting...';
+    }
+
+    // 1. Asynchronously send lead to PHP Admin Portal
+    try {
+        const formData = new FormData();
+        for (const key in leadData) {
+            formData.append(key, leadData[key]);
+        }
+
+        fetch(window.LEGAL_CONFIG.phpEndpoint, {
+            method: 'POST',
+            body: formData
+        }).catch(err => {
+            console.log('PHP Admin API log note:', err.message);
+        });
+    } catch (err) {
+        console.log('Lead dispatch error:', err);
+    }
+
+    // 2. Build WhatsApp URL with prefilled encoded message
+    const messageText = window.LEGAL_CONFIG.formatWhatsAppMessage(leadData);
+    const encodedText = encodeURIComponent(messageText);
+    const whatsappUrl = `https://wa.me/${window.LEGAL_CONFIG.whatsappNumber}?text=${encodedText}`;
+
+    // Display confirmation in UI
+    if (feedback) {
+        feedback.className = 'mt-2 p-2 rounded-3 text-center bg-success text-white d-block';
+        feedback.innerHTML = `✓ Request received! Redirecting to WhatsApp...<br>
+            <a href="${whatsappUrl}" target="_blank" class="text-white text-decoration-underline fw-bold mt-1 d-inline-block">Click here if WhatsApp didn't open</a>`;
+    }
+
+    // 3. WhatsApp Redirect: open in app on mobile, new tab on desktop
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        window.location.href = whatsappUrl;
+    } else {
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }
 }
